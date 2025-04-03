@@ -2,6 +2,8 @@
 #include <ftxui/screen/screen.hpp>
 #include <ftxui/dom/elements.hpp>
 #include <iostream>
+#include <string>
+#include <thread>
 using namespace std;
 using namespace ftxui;
 
@@ -13,12 +15,20 @@ auto pantalla = Screen::Create(
      Dimension::Full()
 );
 
-auto documento = vbox(
-  spinner(21,1)
-);
+int fotograma = 0;
+string resetPosition;
+while(true){
+   auto documento = vbox(
+        spinner(21,fotograma)
+    ); 
+    Render(pantalla, documento);
+    cout << resetPosition;
+    pantalla.Print();
+    resetPosition  = pantalla.ResetPosition();
+    fotograma++;
 
-Render(pantalla, documento);
-pantalla.Print();
+    std::this_thread::sleep_for(0.04s);
+}
 
 // Serie serienavidena;
 
